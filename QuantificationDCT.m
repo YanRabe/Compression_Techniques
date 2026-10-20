@@ -47,6 +47,7 @@ end
 %--------------------------------------------------------------------------
 
 function T_Quant = ChoixTableQuantification(canal,F_Qualite)
+T_Quant = zeros(8, 8);
 if strcmp(canal, 'Luminance')
    l_T_Quant = [ 16 11 10 16 24 40 51 61;
       12 12 14 19 26 58 60 55;
@@ -75,6 +76,13 @@ elseif strcmp(canal, 'Chrominance')
    else
       T_Quant = 50 * c_T_Quant / F_Qualite;
    end
+elseif strcmp(canal, 'Residu')
+    r_T_Quant = repmat(16, 8, 8);
+    if F_Qualite > 50
+        T_Quant = (100 - F_Qualite) * r_T_Quant / 50;
+    else
+        T_Quant = 50 * r_T_Quant / F_Qualite;
+    end
 end
 T_Quant = round(T_Quant);
 end
